@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    
+<head>
+    <title>Password Complexity Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, hsl(193, 74%, 15%), #000000);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            width: 350px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+        }
+
+        .strength {
+            height: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .weak {
+            background-color: red;
+            width: 33%;
+        }
+
+        .medium {
+            background-color: orange;
+            width: 66%;
+        }
+
+        .strong {
+            background-color: green;
+            width: 100%;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Password Strength Checker</h2>
+    <input type="password" id="password" placeholder="Enter Password" onkeyup="checkPassword()">
+    
+    <div id="strengthBar" class="strength"></div>
+    <div id="feedback" class="feedback"></div>
+</div>
+
+<script>
+function checkPassword() {
+    let password = document.getElementById("password").value;
+    let strengthBar = document.getElementById("strengthBar");
+    let feedback = document.getElementById("feedback");
+
+    let score = 0;
+    let messages = [];
+
+    if (password.length >= 8) {
+        score++;
+    } else {
+        messages.push("At least 8 characters required.");
+    }
+
+    if (/[A-Z]/.test(password)) {
+        score++;
+    } else {
+        messages.push("Add uppercase letter.");
+    }
+
+    if (/[a-z]/.test(password)) {
+        score++;
+    } else {
+        messages.push("Add lowercase letter.");
+    }
+
+    if (/[0-9]/.test(password)) {
+        score++;
+    } else {
+        messages.push("Add a number.");
+    }
+
+    if (/[^A-Za-z0-9]/.test(password)) {
+        score++;
+    } else {
+        messages.push("Add special character.");
+    }
+
+    strengthBar.className = "strength";
+
+    if (score <= 2) {
+        strengthBar.classList.add("weak");
+        feedback.innerHTML = "Weak Password<br>" + messages.join("<br>");
+    } 
+    else if (score <= 4) {
+        strengthBar.classList.add("medium");
+        feedback.innerHTML = "Medium Password<br>" + messages.join("<br>");
+    } 
+    else {
+        strengthBar.classList.add("strong");
+        feedback.innerHTML = "Strong Password ✅";
+    }
+}
+</script>
+
+</body>
+</html>
